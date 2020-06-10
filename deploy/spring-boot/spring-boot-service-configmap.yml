@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-boot-service
+data:
+  application.yml: |-
+    cassandra.contact-points: cluster1-dc1-service.cass-operator
+    cassandra.keyspace: betterbotz
+    cassandra.local-datacenter: dc1
+    cassandra.port: 9042

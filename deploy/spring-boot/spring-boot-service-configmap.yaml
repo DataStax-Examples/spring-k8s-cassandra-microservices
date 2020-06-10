@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: spring-boot-service
-data:
-  application.yml: |-
-    cassandra.contact-points: host.docker.internal

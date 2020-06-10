@@ -69,7 +69,7 @@ public class SpringBootCassandraConfiguration {
             return builder -> builder.without(DefaultDriverOption.CONTACT_POINTS);
         }
         return builder -> builder
-                .withString(DefaultDriverOption.SESSION_KEYSPACE, this.keyspace);
+                .withString(DefaultDriverOption.SESSION_NAME, "spring-boot-service");
     }
 
     @Bean

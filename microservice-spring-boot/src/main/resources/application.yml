@@ -7,13 +7,12 @@ management:
   server:
     port: 8084
 
-cassandra.contact-points: host.docker.internal
-cassandra.keyspace: betterbotz
-cassandra.local-datacenter: datastax-desktop
-cassandra.port: 9042
 ---
 spring.profiles: docker
 cassandra.contact-points: host.docker.internal
+cassandra.keyspace: betterbotz
+cassandra.local-datacenter: dc1
+cassandra.port: 9042
 ---
 spring.profiles: kubernetes
 spring.cloud.kubernetes.enabled: true

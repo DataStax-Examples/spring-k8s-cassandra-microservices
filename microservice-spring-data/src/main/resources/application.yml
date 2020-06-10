@@ -4,16 +4,18 @@ server.port: 8081
 
 management.server.port: 8082
 
+---
+spring.profiles: docker
 spring:
   data:
     cassandra:
       port: 9042
+      contact-points: host.docker.internal
       keyspace-name: betterbotz
-      local-datacenter: localhost
+      local-datacenter: dc1
       schema-action: create-if-not-exists
     rest:
       basePath: /api
-
 ---
 spring.profiles: kubernetes
 spring.cloud.kubernetes.enabled: true

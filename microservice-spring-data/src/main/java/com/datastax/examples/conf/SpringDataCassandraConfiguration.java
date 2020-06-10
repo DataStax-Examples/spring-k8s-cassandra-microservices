@@ -37,9 +37,6 @@ public class SpringDataCassandraConfiguration extends AbstractCassandraConfigura
     @Value("${DB_PASSWORD:cassandra}")
     private String password;
 
-    @Value("${cassandra.contact-points:localhost}")
-    private String contactPoints;
-
     @Override
     protected String getKeyspaceName() {
         return cassandraProperties.getKeyspaceName();
@@ -55,10 +52,6 @@ public class SpringDataCassandraConfiguration extends AbstractCassandraConfigura
         return cassandraProperties.getPort();
     }
 
-    protected String getContactPoints(){
-        return contactPoints;
-    }
-
     @Override
     protected SessionBuilderConfigurer getSessionBuilderConfigurer() {
         return new SessionBuilderConfigurer() {
@@ -71,14 +64,15 @@ public class SpringDataCassandraConfiguration extends AbstractCassandraConfigura
                 }
                 else{
                     return cqlSessionBuilder
-                            .addContactPoint(new InetSocketAddress(contactPoints, getPort()))
+                            .addContactPoint(new InetSocketAddress(
+                                    cassandraProperties.getContactPoints().get(0),
+                                    cassandraProperties.getPort()))
                             .withAuthCredentials(username, password);
                 }
             }
         };
     }
 
-    /** {@inheritDoc} */
     @Override
     protected List<CreateKeyspaceSpecification> getKeyspaceCreations() {
         if (!astraSecureConnectBundle.equals("none")) {
@@ -90,14 +84,12 @@ public class SpringDataCassandraConfiguration extends AbstractCassandraConfigura
         }
         return Arrays.asList();
     }
-    
-    /** {@inheritDoc} */
+
     @Override
     public SchemaAction getSchemaAction() {
         return SchemaAction.CREATE_IF_NOT_EXISTS;
     }
-    
-    /** {@inheritDoc} */
+
     @Override
     protected KeyspacePopulator keyspacePopulator() {
         ResourceKeyspacePopulator keyspacePopulate = new ResourceKeyspacePopulator();
@@ -106,7 +98,6 @@ public class SpringDataCassandraConfiguration extends AbstractCassandraConfigura
         return keyspacePopulate;
     }
 
-    /** {@inheritDoc} */
     @Override
     public String[] getEntityBasePackages() {
         return new String[]{ SpringDataApplication.class.getPackageName() + ".model" };
