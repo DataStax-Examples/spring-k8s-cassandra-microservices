@@ -1,0 +1,27 @@
+spring.application.name: spring-data-service
+
+server.port: 8081
+
+management.server.port: 8082
+
+spring:
+  data:
+    cassandra:
+      port: 9042
+      keyspace-name: betterbotz
+      local-datacenter: localhost
+      schema-action: create-if-not-exists
+    rest:
+      basePath: /api
+
+---
+spring.profiles: kubernetes
+spring.cloud.kubernetes.enabled: true
+spring.cloud.kubernetes.config.enabled: true
+spring.cloud.kubernetes.config.sources.namespace: spring-data-service
+spring.cloud.kubernetes.reload.enabled: true
+spring.cloud.kubernetes.reload.mode: event
+spring.cloud.kubernetes.reload.strategy: refresh
+kubernetes.trust.certificates: true
+management.endpoint.restart.enabled: true
+     

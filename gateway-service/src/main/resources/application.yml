@@ -1,0 +1,38 @@
+server.port: 8080
+management.server.port: 8085
+spring.application.name: gateway-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.cloud.loadbalancer: TRACE
+
+---
+spring.profiles: kubernetes
+spring.cloud.kubernetes.enabled: true
+spring.cloud.kubernetes.config.enabled: true
+spring.cloud.kubernetes.reload.enabled: true
+spring.cloud.kubernetes.reload.mode: event
+spring.cloud.kubernetes.reload.strategy: refresh
+kubernetes.trust.certificates: true
+management.endpoint.restart.enabled: true
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          url-expression: "uri+'/'"
+    kubernetes:
+      discovery:
+        all-namespaces: true
+
+
+

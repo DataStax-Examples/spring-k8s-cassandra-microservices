@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: spring-boot-service
+  name: spring-boot-service
+spec:
+  selector:
+    matchLabels:
+      app: spring-boot-service
+  template:
+    metadata:
+      labels:
+        app: spring-boot-service
+    spec:
+      # enable for Astra
+      # volumes:
+      #   - name: astravol
+      #     secret:
+      #       secretName: astracreds
+      #       items:
+      #         - key: secure-connect-bundle
+      #           path: creds
+      containers:
+        - env:
+            - name: KUBERNETES_TRUST_CERTIFICATES
+              value: "true"
+            - name: SPRING_CLOUD_KUBERNETES_CONFIG_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: password
+          # enable for Astra
+          # volumeMounts:
+          #   - name: astravol
+          #     mountPath: "/app/astra"
+          #     readOnly: true
+          image: csplinter/spring-boot-service:1.0.0-SNAPSHOT
+          imagePullPolicy: Never
+          name: spring-boot-service
+          ports:
+            - name: http
+              containerPort: 8083
+            - name: actuator
+              containerPort: 8084
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: actuator
+            initialDelaySeconds: 120
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: actuator

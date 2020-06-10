@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.datastax.examples</groupId>
+	<artifactId>microservice-parent</artifactId>
+	<version>1.0-SNAPSHOT</version>
+
+	<name>Spring microservices with Apache Cassandra and Kubernetes</name>
+	<packaging>pom</packaging>
+	<inceptionYear>2020</inceptionYear>
+	<description>
+	 This project contains Spring microservices that use Apache Cassandra as the database.
+		One uses Spring Data Cassandra for data access and the other uses Spring Boot and the
+		Cassandra Java driver version 4.x directly.
+	</description>
+
+	<properties>
+
+		<!-- Core -->
+		<java.version>11</java.version>
+		<maven-plugin-compiler.version>3.8.1</maven-plugin-compiler.version>
+		<maven-plugin-dockerfile.version>1.4.13</maven-plugin-dockerfile.version>
+
+		<!-- Spring -->
+		<spring.version>5.2.6.RELEASE</spring.version>
+		<spring-boot.version>2.3.0.RELEASE</spring-boot.version>
+		<spring-cloud.version>2.2.3.RELEASE</spring-cloud.version>
+		<spring-data.version>3.0.0.RELEASE</spring-data.version>
+		<spring-data-rest.version>3.3.0.RELEASE</spring-data-rest.version>
+		<spring-cloud-kubernetes.version>1.1.3.RELEASE</spring-cloud-kubernetes.version>
+
+		<cassandra-java-driver.version>4.6.1</cassandra-java-driver.version>
+
+		<!-- Third Parties -->
+		<common-fileupload>1.3.3</common-fileupload>
+		<logback.version>1.2.3</logback.version>
+		<jackson.version>2.11.0</jackson.version>
+		<springdoc.version>1.3.9</springdoc.version>
+		<swagger.version>2.9.2</swagger.version>
+		<swaggerui.version>3.26.0</swaggerui.version>
+
+	</properties>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.0.RELEASE</version>
+		<relativePath />
+	</parent>
+
+	<modules>
+		<module>microservice-spring-boot</module>
+		<module>microservice-spring-data</module>
+		<module>gateway-service</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- Spring -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-thymeleaf</artifactId>
+				<version>${spring-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-kubernetes-config</artifactId>
+				<version>${spring-cloud-kubernetes.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-gateway</artifactId>
+				<version>${spring-cloud.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-actuator</artifactId>
+				<version>${spring-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+				<version>${spring-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-rest</artifactId>
+				<version>${spring-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-cassandra</artifactId>
+				<version>${spring-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-devtools</artifactId>
+				<version>${spring-boot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-rest-core</artifactId>
+				<version>${spring-data-rest.version}</version>
+			</dependency>
+
+			<!-- Cassandra Driver -->
+			<dependency>
+				<groupId>com.datastax.oss</groupId>
+				<artifactId>java-driver-core</artifactId>
+				<version>${cassandra-java-driver.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.datastax.oss</groupId>
+				<artifactId>java-driver-query-builder</artifactId>
+				<version>${cassandra-java-driver.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.datastax.oss</groupId>
+				<artifactId>java-driver-mapper-runtime</artifactId>
+				<version>${cassandra-java-driver.version}</version>
+			</dependency>
+
+			<!-- Rest API -->
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${swagger.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${swaggerui.version}</version>
+			</dependency>
+
+			<!-- Third party -->
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>${common-fileupload}</version>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+			<!-- API Documentation -->
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-ui</artifactId>
+				<version>${springdoc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-data-rest</artifactId>
+				<version>${springdoc.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-plugin-compiler.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>com.spotify</groupId>
+					<artifactId>dockerfile-maven-plugin</artifactId>
+					<version>${maven-plugin-dockerfile.version}</version>
+					<configuration>
+						<repository>datastax-samples/${project.artifactId}</repository>
+						<tag>${project.version}</tag>
+						<buildArgs>
+							<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+						</buildArgs>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<organization>
+		<name>DataStax</name>
+		<url>http://datastax.com</url>
+	</organization>
+
+</project>

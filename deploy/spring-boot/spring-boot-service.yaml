@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: spring-boot-service
+  name: spring-boot-service
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: http
+  selector:
+    app: spring-boot-service
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}

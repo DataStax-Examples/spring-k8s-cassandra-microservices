@@ -1,0 +1,24 @@
+spring.application.name: spring-boot-service
+
+server:
+  port: 8083
+
+management:
+  server:
+    port: 8084
+
+cassandra.contact-points: host.docker.internal
+cassandra.keyspace: betterbotz
+cassandra.local-datacenter: datastax-desktop
+cassandra.port: 9042
+---
+spring.profiles: docker
+cassandra.contact-points: host.docker.internal
+---
+spring.profiles: kubernetes
+spring.cloud.kubernetes.enabled: true
+spring.cloud.kubernetes.config.enabled: true
+spring.cloud.kubernetes.config.sources.namespace: spring-boot-service
+spring.cloud.kubernetes.reload.enabled: true
+spring.cloud.kubernetes.reload.mode: event
+kubernetes.trust.certificates: true

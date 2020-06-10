@@ -1,0 +1,53 @@
+# APP CONFIGMAP
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gateway
+  namespace: gateway
+
+---
+
+# APP DEPLOYMENT
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-deployment
+  labels:
+    app: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+        - image: csplinter/gateway
+          name: gateway
+          ports:
+            - containerPort: 8080
+
+---
+
+# APP SERVICE
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+  namespace: gateway
+  labels:
+    app: gateway
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: gateway
+  type: NodePort
