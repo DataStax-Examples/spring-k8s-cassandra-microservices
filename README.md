@@ -63,8 +63,14 @@ kubectl create ns spring-data-service
 
 Start the Cassandra operator
 ```
-kubectl -n cass-operator apply -f https://raw.githubusercontent.com/DataStax-Academy/kubernetes-workshop-online/master/0-setup-your-cluster/03-storageclass-minikube.yaml
+# create the storage class for the database
+kubectl -n cass-operator apply -f deploy/storage-class.yml
+
+# apply the operator manifest
 kubectl -n cass-operator apply -f https://raw.githubusercontent.com/DataStax-Academy/kubernetes-workshop-online/master/1-cassandra/11-install-cass-operator-v1.1.yaml
+
+# start a single C* 4.0 pod
+kubectl -n cass-operator apply -f deploy/cassandra-4.0.0-1node.yml 
 ```
 
 Create the Kubernetes Secrets for database username and password
