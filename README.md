@@ -2,6 +2,8 @@
 
 This repository contains sample inventory microservices to demonstrate how to use Spring, Kubernetes and Cassandra together a single stack.
 
+![Arch link](https://github.com/DataStax-Examples/spring-k8s-cassandra-microservices/blob/master/doc/pics/spring-k8s-cassandra-small.png?raw=true)
+
 #### Contributors: 
 - [Cedrick Lunven](https://github.com/clun) - twitter handdle [@clun](https://twitter.com/clunven)
 - [Chris Splinter](https://github.com/csplinter)
@@ -138,6 +140,8 @@ kubectl -n spring-data-service port-forward <spring-data-pod> 8081:8081
 
 #### Spring Boot service endpoints
 Explore the endpoints with Swagger: http://localhost:8083/swagger-ui.html
+
+![Arch link](https://github.com/DataStax-Examples/spring-k8s-cassandra-microservices/blob/master/doc/pics/swagger-spring-boot-service.png?raw=true | width=100)
 
 Add products
 ```
