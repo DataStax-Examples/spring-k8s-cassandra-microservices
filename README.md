@@ -8,10 +8,10 @@ This repository contains sample inventory microservices to demonstrate how to us
 - [Frank Moley](https://github.com/fpmoles) - twitter handle [@fpmoles](https://twitter.com/fpmoles)
 
 #### Modules:
-- [`microservice-spring-boot`](microservice-spring-boot):
+- [`microservice-spring-boot`](microservice-spring-boot): Service for Products
    - **Persistence Layer** : uses Cassandra Java driver's `CqlSession` directly for queries to products table
    - **Exposition Layer** : uses `spring-web`  `@Controller`
-- [`microservice-spring-data`](microservice-spring-data): Service for Orders table
+- [`microservice-spring-data`](microservice-spring-data): Service for Orders
   - **Persistence Layer** : uses Spring Data Cassandra for data access to orders table
   - **Exposition Layer** : uses Spring Data Rest for API generation
 
@@ -69,8 +69,8 @@ kubectl -n cass-operator apply -f deploy/storage-class.yml
 # apply the operator manifest
 kubectl -n cass-operator apply -f https://raw.githubusercontent.com/DataStax-Academy/kubernetes-workshop-online/master/1-cassandra/11-install-cass-operator-v1.1.yaml
 
-# start a single C* 4.0 pod
-kubectl -n cass-operator apply -f deploy/cassandra-4.0.0-1node.yml 
+# start a single C* 4.0 node
+kubectl -n cass-operator apply -f deploy/cassandra-4.0.0-1node.yml
 ```
 
 Create the Kubernetes Secrets for database username and password
@@ -137,6 +137,8 @@ kubectl -n spring-data-service port-forward <spring-data-pod> 8081:8081
 ```
 
 #### Spring Boot service endpoints
+Explore the endpoints with Swagger: http://localhost:8083/swagger-ui.html
+
 Add products
 ```
 curl -X POST -H "Content-Type: application/json" -d '{"name": "mobile", "id":"123e4567-e89b-12d3-a456-556642440000", "description":"iPhone", "price":"500.00"}' http://localhost:8083/api/products/add

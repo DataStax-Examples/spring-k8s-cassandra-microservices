@@ -12,6 +12,11 @@ import org.springframework.context.annotation.Configuration;
 import java.net.InetSocketAddress;
 import java.nio.file.Paths;
 
+/* Configuration class for the Spring Boot microservice
+   Note: We could have used CassandraProperties here like we do in the Spring Data microservice.
+         Instead, we show a different technique of having application defined settings for the
+         database connection settings.
+*/
 @Configuration
 public class SpringBootCassandraConfiguration {
 
@@ -50,6 +55,9 @@ public class SpringBootCassandraConfiguration {
 
     @Bean
     public CqlSessionBuilderCustomizer sessionBuilderCustomizer() {
+        /* When using DataStax Astra, we must pass the secure connect bundle to the CqlSession
+           See documentation: https://docs.datastax.com/en/astra/aws/doc/dscloud/astra/dscloudUsingDrivers.html
+        */
         if (!astraSecureConnectBundle.equals("none")) {
             return builder -> builder
                     .withCloudSecureConnectBundle(Paths.get(this.astraSecureConnectBundle))
@@ -65,6 +73,9 @@ public class SpringBootCassandraConfiguration {
 
     @Bean
     public DriverConfigLoaderBuilderCustomizer driverConfigLoaderBuilderCustomizer() {
+        /* When using DataStax Astra, we do not have to pass contact points like we normally would because
+           this metadata is contained in the secure connect bundle.
+         */
         if (!astraSecureConnectBundle.equals("none")) {
             return builder -> builder.without(DefaultDriverOption.CONTACT_POINTS);
         }

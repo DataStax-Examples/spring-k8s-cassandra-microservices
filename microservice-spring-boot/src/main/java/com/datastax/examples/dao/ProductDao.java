@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/* Data Access Object for Products
+   Note: We could have optionally used the Object Mapper distributed with the Cassandra Java driver
+   See documentation: https://docs.datastax.com/en/developer/java-driver/latest/manual/mapper/
+ */
 public class ProductDao {
 
     private PreparedStatement insertProduct;

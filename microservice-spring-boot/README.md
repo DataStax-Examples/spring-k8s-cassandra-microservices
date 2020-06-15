@@ -51,6 +51,8 @@ kubectl -n spring-boot-service get pods
 kubectl -n spring-boot-service port-forward <pod-name> 8083:8083
 ```
 
+Explore the endpoints with Swagger: http://localhost:8083/swagger-ui.html
+
 Test the endpoints with curl
 
 Add products
