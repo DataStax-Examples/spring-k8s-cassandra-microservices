@@ -141,7 +141,7 @@ kubectl -n spring-data-service port-forward <spring-data-pod> 8081:8081
 #### Spring Boot service endpoints
 Explore the endpoints with Swagger: http://localhost:8083/swagger-ui.html
 
-![Arch link](https://github.com/DataStax-Examples/spring-k8s-cassandra-microservices/blob/master/doc/pics/swagger-spring-boot-service.png?raw=true | width=100)
+![Swagger Spring Boot](https://github.com/DataStax-Examples/spring-k8s-cassandra-microservices/blob/master/doc/pics/swagger-spring-boot-service.png?raw=true)
 
 Add products
 ```
