@@ -15,7 +15,8 @@ This repository contains sample inventory microservices to demonstrate how to us
    - **Exposition Layer** : uses `spring-web`  `@Controller`
 - [`microservice-spring-data`](microservice-spring-data): Service for Orders
   - **Persistence Layer** : uses Spring Data Cassandra for data access to orders table
-  - **Exposition Layer** : uses Spring Data Rest for API generation
+  - **Exposition Layer** : uses Spring Data REST for API generation
+- [`gateway-service`](gateway-service): Spring Cloud Gateway to route to the microservices
 
 ## 1. Objectives
 
@@ -53,7 +54,11 @@ git clone <repo>
 
 Start minikube
 ```
+# use docker as the virtualization driver
 minikube start --driver=docker --extra-config=apiserver.authorization-mode=RBAC,Node
+
+# tell minikube to use local docker registry
+eval `minikube docker-env`
 ```
 
 Create namespaces
@@ -61,6 +66,7 @@ Create namespaces
 kubectl create ns cass-operator
 kubectl create ns spring-boot-service
 kubectl create ns spring-data-service
+kubectl create ns gateway-service
 ```
 
 Start the Cassandra operator
@@ -89,38 +95,45 @@ kubectl -n spring-boot-service create secret generic db-secret --from-literal=us
 kubectl -n spring-data-service create secret generic db-secret --from-literal=username=<db-username> --from-literal=password=<db-password>
 ```
 
-Build the Spring Boot service
+Build the services
 ```
-# build jar
-cd microservice-spring-boot; mvn package
-
-# build docker image
-docker build -t <your-docker-username>/spring-boot-service:1.0.0-SNAPSHOT .
-
-# replace image name in deploy/spring-boot/spring-boot-deployment.yaml
-# with your docker username
+# from the spring-k8s-cassandra-microservices directory
+mvn package
 ```
 
-Build the Spring Data service
+Build the docker images
 ```
-# build jar
-cd microservice-spring-data; mvn package
+cd microservice-spring-boot; docker build -t <your-docker-username>/spring-boot-service:1.0.0-SNAPSHOT .
+cd microservice-spring-data; docker build -t <your-docker-username>/spring-data-service:1.0.0-SNAPSHOT .
+cd gateway-service; docker build -t <your-docker-username>/gateway-service:1.0.0-SNAPSHOT .
+```
 
-# build docker image
-docker build -t <your-docker-username>/spring-data-service:1.0.0-SNAPSHOT .
-
-# replace image name in deploy/spring-data/spring-data-deployment.yaml
-# with your docker username
+Alter deployment.yml files with your docker username
+```
+# replace image name in deploy/spring-boot/spring-boot-deployment.yml
+# replace image name in deploy/spring-data/spring-data-deployment.yml
+# replace image name in deploy/gateway-service/gateway-deployment.yml
 ```
 
 ### Running
 Start the services
 ```
+# from the spring-k8s-cassandra-microservices directory
 kubectl -n spring-boot-service apply -f deploy/spring-boot
 kubectl -n spring-data-service apply -f deploy/spring-data
+kubectl -n gateway-service apply -f deploy/gateway-service
 ```
 
-Expose the Spring Boot service endpoints
+Expose the Gateway endpoint
+```
+# get the gateway-service pod
+kubectl -n gateway-service get pods
+
+# forward the port
+kubectl -n gateway-service port-forward <gateway-service-pod> 8080:8080
+```
+
+Optionally expose the Spring Boot service endpoints (useful for testing)
 ```
 # get the spring-boot-service pod
 kubectl -n spring-boot-service get pods
@@ -129,7 +142,7 @@ kubectl -n spring-boot-service get pods
 kubectl -n spring-boot-service port-forward <spring-boot-pod> 8083:8083
 ```
 
-Expose the Spring Data service endpoints
+Optionally expose the Spring Data service endpoints (useful for testing)
 ```
 # get the spring-data-service pod
 kubectl -n spring-data-service get pods
@@ -138,8 +151,16 @@ kubectl -n spring-data-service get pods
 kubectl -n spring-data-service port-forward <spring-data-pod> 8081:8081
 ```
 
+#### Gateway Service endpoints
+
+The Spring Cloud Gateway is running on port 8080 and forwards requests
+to the Spring Boot and Spring Data endpoints below. To test that this is
+working, you can replace the URLs below with `localhost:8080` with the same
+curl commands.
+
 #### Spring Boot service endpoints
-Explore the endpoints with Swagger: http://localhost:8083/swagger-ui.html
+
+Explore the endpoints with Swagger (only works if endpoints exposed above): http://localhost:8083/swagger-ui.html
 
 ![Swagger Spring Boot](https://github.com/DataStax-Examples/spring-k8s-cassandra-microservices/blob/master/doc/pics/swagger-spring-boot-service.png?raw=true)
 

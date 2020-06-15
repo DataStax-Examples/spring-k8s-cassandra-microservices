@@ -24,7 +24,6 @@ import java.util.stream.Stream;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@RestController
 public class GatewayApplication {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GatewayApplication.class);
@@ -33,27 +32,9 @@ public class GatewayApplication {
         SpringApplication.run(GatewayApplication.class, args);
     }
 
-    @Autowired
-    RestTemplate restTemplate;
 
     @Autowired
     DiscoveryClient client;
 
-    @GetMapping("/test")
-    @ResponseBody
-    public String invokeTestService() {
-        List<ServiceInstance> testServiceInstances = this.client.getInstances("spring-boot-service");
-        return restTemplate.getForObject(testServiceInstances.get(0).getUri(), String.class);
-    }
-
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-
-    @GetMapping("/services")
-    public List<String> services() {
-        return this.client.getServices();
-    }
 
 }
