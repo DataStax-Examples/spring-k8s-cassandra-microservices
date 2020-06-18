@@ -1,4 +1,4 @@
-package com.datastax.examples.model;
+package com.datastax.examples.product;
 
 import java.math.BigDecimal;
 import java.time.Instant;

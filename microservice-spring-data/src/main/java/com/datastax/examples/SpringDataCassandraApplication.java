@@ -6,15 +6,15 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class SpringDataApplication extends SpringBootServletInitializer {
+public class SpringDataCassandraApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(SpringDataApplication.class);
+        return application.sources(SpringDataCassandraApplication.class);
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringDataApplication.class, args);
+        SpringApplication.run(SpringDataCassandraApplication.class, args);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.datastax.examples.conf;
+package com.datastax.examples;
 
 import java.net.InetSocketAddress;
 import java.nio.file.Paths;
@@ -19,7 +19,7 @@ import org.springframework.data.cassandra.core.cql.keyspace.KeyspaceOption;
 import org.springframework.data.cassandra.core.cql.session.init.KeyspacePopulator;
 import org.springframework.data.cassandra.core.cql.session.init.ResourceKeyspacePopulator;
 
-import com.datastax.examples.SpringDataApplication;
+import com.datastax.examples.SpringDataCassandraApplication;
 
 @Configuration
 @EnableConfigurationProperties(CassandraProperties.class)
@@ -94,13 +94,13 @@ public class SpringDataCassandraConfiguration extends AbstractCassandraConfigura
     protected KeyspacePopulator keyspacePopulator() {
         ResourceKeyspacePopulator keyspacePopulate = new ResourceKeyspacePopulator();
         keyspacePopulate.setSeparator(";");
-        keyspacePopulate.setScripts(new ClassPathResource("sample-data.cql"));
+        keyspacePopulate.setScripts(new ClassPathResource("orders-schema.cql"));
         return keyspacePopulate;
     }
 
     @Override
     public String[] getEntityBasePackages() {
-        return new String[]{ SpringDataApplication.class.getPackageName() + ".model" };
+        return new String[]{ SpringDataCassandraApplication.class.getPackageName() + ".order" };
     }
 
 }

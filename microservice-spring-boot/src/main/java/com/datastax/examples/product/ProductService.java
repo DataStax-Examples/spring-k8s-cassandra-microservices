@@ -1,12 +1,9 @@
-package com.datastax.examples.service;
+package com.datastax.examples.product;
 
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.datastax.examples.dao.ProductDao;
-import com.datastax.examples.model.Product;
 
 @Service
 public class ProductService {

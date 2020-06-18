@@ -1,4 +1,4 @@
-package com.datastax.examples.model;
+package com.datastax.examples.order;
 
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass;

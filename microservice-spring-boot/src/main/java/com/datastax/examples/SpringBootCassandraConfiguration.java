@@ -1,6 +1,6 @@
-package com.datastax.examples.conf;
+package com.datastax.examples;
 
-import com.datastax.examples.dao.ProductDao;
+import com.datastax.examples.product.ProductDao;
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.config.DefaultDriverOption;
 import org.springframework.beans.factory.annotation.Value;

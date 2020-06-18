@@ -1,6 +1,6 @@
-package com.datastax.examples.dao;
+package com.datastax.examples.product;
 
-import com.datastax.examples.model.Product;
+import com.datastax.examples.product.Product;
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.PreparedStatement;
 import com.datastax.oss.driver.api.core.cql.ResultSet;

@@ -1,4 +1,4 @@
-package com.datastax.examples.conf;
+package com.datastax.examples.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

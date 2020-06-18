@@ -1,4 +1,4 @@
-package com.datastax.examples.model;
+package com.datastax.examples.order;
 
 import lombok.Data;
 import org.springframework.data.cassandra.core.mapping.*;
