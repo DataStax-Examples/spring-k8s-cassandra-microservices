@@ -32,13 +32,13 @@ public class SpringBootCassandraConfiguration {
     @Value("${DB_PASSWORD:cassandra}")
     private String password;
 
-    @Value("${cassandra.contact-points}")
+    @Value("${cassandra.contact-points:localhost}")
     private String contactPoints;
 
     @Value("${cassandra.port:9042}")
     private Integer port;
 
-    @Value("${cassandra.local-datacenter}")
+    @Value("${cassandra.local-datacenter:dc1}")
     private String localDataCenter;
 
     public String getKeyspace() {

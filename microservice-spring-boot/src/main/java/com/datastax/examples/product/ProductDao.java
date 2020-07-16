@@ -31,7 +31,7 @@ public class ProductDao {
         this.selectProductByName = session.prepare(getSelectProductByNameStmt(keyspace));
         this.selectProductByNameAndId = session.prepare(getSelectProductByNameAndIdStmt(keyspace));
         this.deleteProductByName = session.prepare(getDeleteProductByNameStmt(keyspace));
-        this.deleteProductByNameAndId = session.prepare(getSelectProductByNameAndIdStmt(keyspace));
+        this.deleteProductByNameAndId = session.prepare(getDeleteProductByNameAndIdStmt(keyspace));
     }
 
     private void maybeCreateProductSchema(String keyspace, String localDataCenter, String isAstra){

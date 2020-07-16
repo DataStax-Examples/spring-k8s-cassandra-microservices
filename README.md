@@ -61,6 +61,26 @@ minikube start --driver=docker --extra-config=apiserver.authorization-mode=RBAC,
 eval `minikube docker-env`
 ```
 
+Build the services
+```
+# from the spring-k8s-cassandra-microservices directory
+mvn package
+```
+
+Build the docker images
+```
+cd microservice-spring-boot; docker build -t <your-docker-username>/spring-boot-service:1.0.0-SNAPSHOT .
+cd microservice-spring-data; docker build -t <your-docker-username>/spring-data-service:1.0.0-SNAPSHOT .
+cd gateway-service; docker build -t <your-docker-username>/gateway-service:1.0.0-SNAPSHOT .
+```
+
+Alter deployment.yml files with your docker username
+```
+# replace image name in deploy/spring-boot/spring-boot-deployment.yml
+# replace image name in deploy/spring-data/spring-data-deployment.yml
+# replace image name in deploy/gateway-service/gateway-deployment.yml
+```
+
 Create namespaces
 ```
 kubectl create ns cass-operator
@@ -69,6 +89,7 @@ kubectl create ns spring-data-service
 kubectl create ns gateway-service
 ```
 
+### 3.c - Setup Cassandra Operator
 Start the Cassandra operator
 ```
 # create the storage class for the database
@@ -90,29 +111,48 @@ kubectl -n cass-operator get secret cluster1-superuser -o yaml
 echo <username> | base64 -D && echo ""
 echo <password> | base64 -D && echo ""
 
-# create k8s secrets for the services
+# create k8s secrets for the services (skip cmd for Spring Boot service if using Astra)
 kubectl -n spring-boot-service create secret generic db-secret --from-literal=username=<db-username> --from-literal=password=<db-password>
 kubectl -n spring-data-service create secret generic db-secret --from-literal=username=<db-username> --from-literal=password=<db-password>
 ```
 
-Build the services
+### 3.d - (Optional) Use DataStax Astra for Spring Boot Service
+
+Create a free tier database in [DataStax Astra](https://astra.datastax.com/) with keyspace name `betterbotz`
+
+Download the secure connect bundle from the Astra UI ([docs](https://docs.datastax.com/en/astra/aws/doc/dscloud/astra/dscloudObtainingCredentials.html))
+
+Create secrets for the Astra username/password and secure connect bundle
 ```
-# from the spring-k8s-cassandra-microservices directory
-mvn package
+kubectl -n spring-boot-service create secret generic db-secret --from-literal=username=<astra-db-user> --from-literal=password=<astra-db-pass>
+kubectl -n spring-boot-service create secret generic astracreds --from-file=secure-connect-bundle=<path-to-secure-connect-bundle>
 ```
 
-Build the docker images
+Change [ConfigMap](deploy/spring-boot/spring-boot-service-configmap.yml) to use secure connect bundle
 ```
-cd microservice-spring-boot; docker build -t <your-docker-username>/spring-boot-service:1.0.0-SNAPSHOT .
-cd microservice-spring-data; docker build -t <your-docker-username>/spring-data-service:1.0.0-SNAPSHOT .
-cd gateway-service; docker build -t <your-docker-username>/gateway-service:1.0.0-SNAPSHOT .
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-boot-service
+data:
+  application.yml: |-
+    astra.secure-connect-bundle: /app/astra/creds
 ```
 
-Alter deployment.yml files with your docker username
+Uncomment lines in [Deployment.yml](spring-boot-deployment.yml)
 ```
-# replace image name in deploy/spring-boot/spring-boot-deployment.yml
-# replace image name in deploy/spring-data/spring-data-deployment.yml
-# replace image name in deploy/gateway-service/gateway-deployment.yml
+volumes:
+  - name: astravol
+    secret:
+      secretName: astracreds
+      items:
+        - key: secure-connect-bundle
+          path: creds
+...
+volumeMounts:
+  - name: astravol
+    mountPath: "/app/astra"
+    readOnly: true
 ```
 
 ### Running
