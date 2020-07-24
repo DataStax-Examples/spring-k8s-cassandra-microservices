@@ -164,28 +164,28 @@ kubectl -n gateway-service apply -f deploy/gateway
 Expose the Gateway endpoint
 ```
 # get the gateway-service pod
-kubectl -n gateway-service get pods
+GATEWAY_POD=$(kubectl -n gateway-service get pods | tail -n 1 | cut -f 1 -d ' ')
 
 # forward the port
-kubectl -n gateway-service port-forward <gateway-service-pod> 8080:8080
+kubectl -n gateway-service port-forward $GATEWAY_POD 8080:8080
 ```
 
 Optionally expose the Spring Boot service endpoints (useful for testing)
 ```
 # get the spring-boot-service pod
-kubectl -n spring-boot-service get pods
+BOOT_SERVICE_POD=$(kubectl -n spring-boot-service get pods | tail -n 1 | cut -f 1 -d ' ')
 
 # forward the port
-kubectl -n spring-boot-service port-forward <spring-boot-pod> 8083:8083
+kubectl -n spring-boot-service port-forward $BOOT_SERVICE_POD 8083:8083
 ```
 
 Optionally expose the Spring Data service endpoints (useful for testing)
 ```
 # get the spring-data-service pod
-kubectl -n spring-data-service get pods
+DATA_SERVICE_POD=$(kubectl -n spring-data-service get pods | tail -n 1 | cut -f 1 -d ' ')
 
 # forward the port
-kubectl -n spring-data-service port-forward <spring-data-pod> 8081:8081
+kubectl -n spring-data-service port-forward $DATA_SERVICE_POD 8081:8081
 ```
 
 #### Gateway Service endpoints
