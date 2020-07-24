@@ -78,7 +78,7 @@ Alter deployment.yml files with your docker username
 ```
 # replace image name in deploy/spring-boot/spring-boot-deployment.yml
 # replace image name in deploy/spring-data/spring-data-deployment.yml
-# replace image name in deploy/gateway-service/gateway-deployment.yml
+# replace image name in deploy/gateway/gateway-deployment.yml
 ```
 
 Create namespaces
