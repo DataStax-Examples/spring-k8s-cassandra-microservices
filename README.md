@@ -49,7 +49,7 @@ The prerequisites required for this application to run
 ### 3.b - Setup
 Clone the current repository
 ```
-git clone <repo>
+git clone https://github.com/DataStax-Examples/spring-k8s-cassandra-microservices.git
 ```
 
 Start minikube
