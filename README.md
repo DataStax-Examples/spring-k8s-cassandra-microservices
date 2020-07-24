@@ -105,15 +105,12 @@ kubectl -n cass-operator apply -f deploy/cassandra-4.0.0-1node.yml
 Create the Kubernetes Secrets for database username and password
 ```
 # get the username and password from the secret
-kubectl -n cass-operator get secret cluster1-superuser -o yaml
-
-# decode the username and password from the secret
-echo <username> | base64 -D && echo ""
-echo <password> | base64 -D && echo ""
+DB_USER=$(kubectl -n cass-operator get secret cluster1-superuser -o yaml | grep username | cut -d " " -f 4 | base64 -d)
+DB_PASSWORD=$(kubectl -n cass-operator get secret cluster1-superuser -o yaml | grep password | cut -d " " -f 4 | base64 -d)
 
 # create k8s secrets for the services (skip cmd for Spring Boot service if using Astra)
-kubectl -n spring-boot-service create secret generic db-secret --from-literal=username=<db-username> --from-literal=password=<db-password>
-kubectl -n spring-data-service create secret generic db-secret --from-literal=username=<db-username> --from-literal=password=<db-password>
+kubectl -n spring-boot-service create secret generic db-secret --from-literal=username=$DB_USER --from-literal=password=$DB_PASSWORD
+kubectl -n spring-data-service create secret generic db-secret --from-literal=username=$DB_USER --from-literal=password=$DB_PASSWORD
 ```
 
 ### 3.d - (Optional) Use DataStax Astra for Spring Boot Service
