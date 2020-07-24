@@ -158,7 +158,7 @@ Start the services
 # from the spring-k8s-cassandra-microservices directory
 kubectl -n spring-boot-service apply -f deploy/spring-boot
 kubectl -n spring-data-service apply -f deploy/spring-data
-kubectl -n gateway-service apply -f deploy/gateway-service
+kubectl -n gateway-service apply -f deploy/gateway
 ```
 
 Expose the Gateway endpoint
