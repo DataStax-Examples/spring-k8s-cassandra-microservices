@@ -13,6 +13,14 @@ spec:
       labels:
         app: spring-data-service
     spec:
+      # enable for Astra
+      # volumes:
+      #   - name: astravol
+      #     secret:
+      #       secretName: astracreds
+      #       items:
+      #         - key: secure-connect-bundle
+      #           path: creds
       containers:
         - env:
             - name: KUBERNETES_TRUST_CERTIFICATES
@@ -31,6 +39,11 @@ spec:
                 secretKeyRef:
                   name: db-secret
                   key: password
+          # enable for Astra
+          # volumeMounts:
+          #   - name: astravol
+          #     mountPath: "/app/astra"
+          #     readOnly: true
           image: csplinter/spring-data-service:1.0.0-SNAPSHOT
           imagePullPolicy: Never
           name: spring-data-service

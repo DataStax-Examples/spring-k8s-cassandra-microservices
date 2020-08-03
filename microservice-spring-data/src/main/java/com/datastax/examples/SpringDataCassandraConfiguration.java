@@ -75,7 +75,7 @@ public class SpringDataCassandraConfiguration extends AbstractCassandraConfigura
 
     @Override
     protected List<CreateKeyspaceSpecification> getKeyspaceCreations() {
-        if (!astraSecureConnectBundle.equals("none")) {
+        if (astraSecureConnectBundle.equals("none")) {
             return Arrays.asList(CreateKeyspaceSpecification
                     .createKeyspace(getKeyspaceName())
                     .ifNotExists(true)

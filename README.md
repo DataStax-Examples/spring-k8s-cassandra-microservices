@@ -89,7 +89,70 @@ kubectl create ns spring-data-service
 kubectl create ns gateway-service
 ```
 
-### 3.c - Setup Cassandra Operator
+### 3.c - Setup DataStax Astra or Cassandra Kubernetes Operator
+#### DataStax Astra
+Create a free tier database in [DataStax Astra](https://astra.datastax.com/) with keyspace name `betterbotz`
+
+Download the secure connect bundle from the Astra UI ([docs](https://docs.datastax.com/en/astra/aws/doc/dscloud/astra/dscloudObtainingCredentials.html))
+
+Create secrets for the Astra username/password and secure connect bundle
+```
+DB_USER=<astra-db-user>
+DB_PASSWORD=<astra-db-password>
+SECURE_CONNECT_BUNDLE_PATH=<path-to-secure-connect-bundle>
+```
+
+```
+kubectl -n spring-boot-service create secret generic db-secret --from-literal=username=$DB_USER --from-literal=password=$DB_PASSWORD
+kubectl -n spring-boot-service create secret generic astracreds --from-file=secure-connect-bundle=$SECURE_CONNECT_BUNDLE_PATH
+```
+
+```
+kubectl -n spring-data-service create secret generic db-secret --from-literal=username=$DB_USER --from-literal=password=$DB_PASSWORD
+kubectl -n spring-data-service create secret generic astracreds --from-file=secure-connect-bundle=$SECURE_CONNECT_BUNDLE_PATH
+```
+
+Change Spring Boot [ConfigMap](deploy/spring-boot/spring-boot-service-configmap.yml) to use secure connect bundle
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-boot-service
+data:
+  application.yml: |-
+    astra.secure-connect-bundle: /app/astra/creds
+```
+
+Change Spring Data [ConfigMap](deploy/spring-data/spring-data-service-configmap.yml) to use secure connect bundle
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-data-service
+data:
+  application.yml: |-
+    astra.secure-connect-bundle: /app/astra/creds
+```
+
+Uncomment the following lines in [Spring Boot Deployment.yml](deploy/spring-boot/spring-boot-deployment.yml) and [Spring Data Deployment.yml](deploy/spring-data/spring-data-deployment.yml)
+```
+volumes:
+  - name: astravol
+    secret:
+      secretName: astracreds
+      items:
+        - key: secure-connect-bundle
+          path: creds
+...
+volumeMounts:
+  - name: astravol
+    mountPath: "/app/astra"
+    readOnly: true
+```
+
+You're ready to go!
+
+#### Cassandra Kubernetes Operator
 Start the Cassandra operator
 ```
 # create the storage class for the database
@@ -111,45 +174,6 @@ DB_PASSWORD=$(kubectl -n cass-operator get secret cluster1-superuser -o yaml | g
 # create k8s secrets for the services (skip cmd for Spring Boot service if using Astra)
 kubectl -n spring-boot-service create secret generic db-secret --from-literal=username=$DB_USER --from-literal=password=$DB_PASSWORD
 kubectl -n spring-data-service create secret generic db-secret --from-literal=username=$DB_USER --from-literal=password=$DB_PASSWORD
-```
-
-### 3.d - (Optional) Use DataStax Astra for Spring Boot Service
-
-Create a free tier database in [DataStax Astra](https://astra.datastax.com/) with keyspace name `betterbotz`
-
-Download the secure connect bundle from the Astra UI ([docs](https://docs.datastax.com/en/astra/aws/doc/dscloud/astra/dscloudObtainingCredentials.html))
-
-Create secrets for the Astra username/password and secure connect bundle
-```
-kubectl -n spring-boot-service create secret generic db-secret --from-literal=username=<astra-db-user> --from-literal=password=<astra-db-pass>
-kubectl -n spring-boot-service create secret generic astracreds --from-file=secure-connect-bundle=<path-to-secure-connect-bundle>
-```
-
-Change [ConfigMap](deploy/spring-boot/spring-boot-service-configmap.yml) to use secure connect bundle
-```
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: spring-boot-service
-data:
-  application.yml: |-
-    astra.secure-connect-bundle: /app/astra/creds
-```
-
-Uncomment lines in [Deployment.yml](spring-boot-deployment.yml)
-```
-volumes:
-  - name: astravol
-    secret:
-      secretName: astracreds
-      items:
-        - key: secure-connect-bundle
-          path: creds
-...
-volumeMounts:
-  - name: astravol
-    mountPath: "/app/astra"
-    readOnly: true
 ```
 
 ### Running
