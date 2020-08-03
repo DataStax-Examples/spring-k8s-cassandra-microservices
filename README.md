@@ -276,5 +276,5 @@ curl -X DELETE "http://localhost:8081/api/orders/delete/product-from-order?order
 
 Delete order with order_id = 123e4567-e89b-12d3-a456-556642440000
 ```
-curl -X DELETE "http://localhost:8081/api/orders/delete/order?orderId=123e4567-e89b-12d3-a456-556642440000"```
+curl -X DELETE "http://localhost:8081/api/orders/delete/order?orderId=123e4567-e89b-12d3-a456-556642440000"
 ```
