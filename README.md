@@ -1,6 +1,6 @@
 # Spring Data Cassandra REST API
 
-This sample uses Spring Data Cassandra and DataStax Astra to build a REST API for a backend service that adds products to orders.
+This sample uses Spring Data Cassandra and DataStax Astra to build a REST API for a backend service that interacts with products in orders.
 
 ## Running
 
