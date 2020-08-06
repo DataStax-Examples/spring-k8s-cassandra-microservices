@@ -25,8 +25,8 @@ FIRST_DB_USER=$(echo "${DBS}" | jq -c '.[0].info.user')
 FIRST_DB_KEYSPACE=$(echo "${DBS}" | jq -c '.[0].info.keyspaces[0]')
 FIRST_DB_SECURE_BUNDLE_URL=$(echo "${DBS}" | jq -c '.[0].info.datacenters[0].secureBundleUrl')
 
-export ASTRA_SECURE_BUNDLE_URL="${FIRST_DB_SECURE_BUNDLE_URL}"
-gp env ASTRA_SECURE_BUNDLE_URL="${FIRST_DB_SECURE_BUNDLE_URL}" &>/dev/null
+export ASTRA_SECURE_BUNDLE_URL=${FIRST_DB_SECURE_BUNDLE_URL}
+gp env ASTRA_SECURE_BUNDLE_URL=${FIRST_DB_SECURE_BUNDLE_URL} &>/dev/null
 
 # Download the secure connect bundle
 curl -s -L $(echo $FIRST_DB_SECURE_BUNDLE_URL | sed "s/\"//g") -o astra-creds.zip
@@ -34,23 +34,23 @@ curl -s -L $(echo $FIRST_DB_SECURE_BUNDLE_URL | sed "s/\"//g") -o astra-creds.zi
 export ASTRA_DB_BUNDLE="astra-creds.zip"
 gp env ASTRA_DB_BUNDLE="astra-creds.zip" &>/dev/null
 
-export ASTRA_DB_USERNAME="${FIRST_DB_USER}"
-gp env ASTRA_DB_USERNAME="${FIRST_DB_USER}" &>/dev/null
+export ASTRA_DB_USERNAME=${FIRST_DB_USER}
+gp env ASTRA_DB_USERNAME=${FIRST_DB_USER} &>/dev/null
 
-export ASTRA_DB_KEYSPACE="${FIRST_DB_KEYSPACE}"
-gp env ASTRA_DB_KEYSPACE="${FIRST_DB_KEYSPACE}" &>/dev/null
+export ASTRA_DB_KEYSPACE=${FIRST_DB_KEYSPACE}
+gp env ASTRA_DB_KEYSPACE=${FIRST_DB_KEYSPACE} &>/dev/null
 
-export ASTRA_DB_ID="${FIRST_DB_ID}"
-gp env ASTRA_DB_ID="${FIRST_DB_ID}" &>/dev/null
+export ASTRA_DB_ID=${FIRST_DB_ID}
+gp env ASTRA_DB_ID=${FIRST_DB_ID} &>/dev/null
 
-export ASTRA_DB_REGION="${FIRST_DB_REGION}"
-gp env ASTRA_DB_REGION="${FIRST_DB_REGION}" &>/dev/null
+export ASTRA_DB_REGION=${FIRST_DB_REGION}
+gp env ASTRA_DB_REGION=${FIRST_DB_REGION} &>/dev/null
 
 if [[ -z "$ASTRA_DB_PASSWORD" ]]; then
   echo "What is your Astra DB password? 🔒"
   read -s ASTRA_DB_PASSWORD
-  export ASTRA_DB_PASSWORD="${ASTRA_DB_PASSWORD}"
-  gp env ASTRA_DB_PASSWORD="${ASTRA_DB_PASSWORD}" &>/dev/null
+  export ASTRA_DB_PASSWORD=${ASTRA_DB_PASSWORD}
+  gp env ASTRA_DB_PASSWORD=${ASTRA_DB_PASSWORD} &>/dev/null
 fi
 
 echo "You're all set 👌"
