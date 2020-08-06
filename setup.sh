@@ -68,7 +68,7 @@ gp env ASTRA_DB_REGION="${FIRST_DB_REGION}" &>/dev/null
 
 if [[ -z "$ASTRA_DB_PASSWORD" ]]; then
   echo "What is your Astra DB password? 🔒"
-  read -r ASTRA_DB_PASSWORD
+  read -s ASTRA_DB_PASSWORD
   export ASTRA_DB_PASSWORD="${ASTRA_DB_PASSWORD}"
   gp env ASTRA_DB_PASSWORD="${ASTRA_DB_PASSWORD}" &>/dev/null
 fi
