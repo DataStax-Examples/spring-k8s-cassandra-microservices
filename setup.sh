@@ -1,27 +1,7 @@
-if [[ -z "$SERVICE_ACCOUNT" ]]; then
-  echo "Taking you to Astra to generate a service account in 3 🥁"
-  sleep 1
-  echo "2..."
-  sleep 1
-  echo "1..."
-  sleep 1
-  sensible-browser https://astra.datastax.com/organizations?create_service_account
-
-  echo "🚀 Paste your service account credentials: "
+echo "🚀 Go to https://astra.datastax.com/organizations?create_service_account.
+Grab your service account credentials and paste them here: "
   read -r SERVICE_ACCOUNT
   export SERVICE_ACCOUNT="${SERVICE_ACCOUNT}"
-fi
-
-unset ASTRA_DB_PASSWORD
-unset ASTRA_DB_REGION
-unset ASTRA_DB_KEYSPACE
-unset ASTRA_DB_ID
-unset ASTRA_DB_USERNAME
-unset FIRST_DB_ID
-unset FIRST_DB_REGION
-unset FIRST_DB_USER
-unset FIRST_DB_KEYSPACE
-unset FIRST_DB_SECURE_BUNDLE_URL
 
 echo "Getting your Astra DevOps API token..."
 DEVOPS_TOKEN=$(curl -s --request POST \
