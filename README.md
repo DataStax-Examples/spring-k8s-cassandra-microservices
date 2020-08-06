@@ -2,7 +2,7 @@
 
 This sample uses Spring Data Cassandra and DataStax Astra to build a REST API for a backend service that interacts with products in orders.
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/DataStax-Examples/astra-gatsbyjs-starter) 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/DataStax-Examples/spring-k8s-cassandra-microservices/tree/spring-data-starter) 
 
 ## Running
 
