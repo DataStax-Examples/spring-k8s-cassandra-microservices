@@ -2,10 +2,9 @@ image: gitpod/workspace-full
 tasks:
   - init: mvn package
     command: . setup.sh && java -jar target/spring-data-example-1.0.0-SNAPSHOT.jar
-  - command: gp preview $(gp url 8081)/swagger-ui/
 ports:
   - port: 8081
-    onOpen: ignore
+    onOpen: open-browser
 github:
   prebuilds:
     master: true
