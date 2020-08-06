@@ -1,0 +1,8 @@
+spring.application.name: spring-data-service
+
+server.port: 8081
+
+management.server.port: 8082
+
+spring.data.rest.basePath: /api
+spring.data.cassandra.keyspace-name: betterbotz
