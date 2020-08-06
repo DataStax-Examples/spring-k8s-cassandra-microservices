@@ -12,6 +12,17 @@ if [[ -z "$SERVICE_ACCOUNT" ]]; then
   export SERVICE_ACCOUNT="${SERVICE_ACCOUNT}"
 fi
 
+unset ASTRA_DB_PASSWORD
+unset ASTRA_DB_REGION
+unset ASTRA_DB_KEYSPACE
+unset ASTRA_DB_ID
+unset ASTRA_DB_USERNAME
+unset FIRST_DB_ID
+unset FIRST_DB_REGION
+unset FIRST_DB_USER
+unset FIRST_DB_KEYSPACE
+unset FIRST_DB_SECURE_BUNDLE_URL
+
 echo "Getting your Astra DevOps API token..."
 DEVOPS_TOKEN=$(curl -s --request POST \
   --url "https://api.astra.datastax.com/v2/authenticateServiceAccount" \
@@ -38,7 +49,7 @@ export ASTRA_SECURE_BUNDLE_URL="${FIRST_DB_SECURE_BUNDLE_URL}"
 gp env ASTRA_SECURE_BUNDLE_URL="${FIRST_DB_SECURE_BUNDLE_URL}" &>/dev/null
 
 # Download the secure connect bundle
-curl -L $(echo $FIRST_DB_SECURE_BUNDLE_URL | sed "s/\"//g") -o astra-creds.zip
+curl -s -L $(echo $FIRST_DB_SECURE_BUNDLE_URL | sed "s/\"//g") -o astra-creds.zip
 
 export ASTRA_DB_BUNDLE="astra-creds.zip"
 gp env ASTRA_DB_BUNDLE="astra-creds.zip" &>/dev/null
