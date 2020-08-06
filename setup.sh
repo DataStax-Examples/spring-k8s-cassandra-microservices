@@ -5,7 +5,7 @@ if [[ -z "$SERVICE_ACCOUNT" ]]; then
   sleep 1
   echo "1..."
   sleep 1
-  open https://astra.datastax.com/organizations?create_service_account
+  sensible-browser https://astra.datastax.com/organizations?create_service_account
 
   echo "🚀 Paste your service account credentials: "
   read -r SERVICE_ACCOUNT
