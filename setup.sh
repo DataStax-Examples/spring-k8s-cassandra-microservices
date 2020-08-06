@@ -34,17 +34,17 @@ curl -s -L $(echo $FIRST_DB_SECURE_BUNDLE_URL | sed "s/\"//g") -o astra-creds.zi
 export ASTRA_DB_BUNDLE="astra-creds.zip"
 gp env ASTRA_DB_BUNDLE="astra-creds.zip" &>/dev/null
 
-export ASTRA_DB_USERNAME=${FIRST_DB_USER}
-gp env ASTRA_DB_USERNAME=${FIRST_DB_USER} &>/dev/null
+export ASTRA_DB_USERNAME=$(echo ${FIRST_DB_USER} | sed "s/\"//g")
+gp env ASTRA_DB_USERNAME=$(echo ${FIRST_DB_USER} | sed "s/\"//g") &>/dev/null
 
-export ASTRA_DB_KEYSPACE=${FIRST_DB_KEYSPACE}
-gp env ASTRA_DB_KEYSPACE=${FIRST_DB_KEYSPACE} &>/dev/null
+export ASTRA_DB_KEYSPACE=$(echo ${FIRST_DB_KEYSPACE} | sed "s/\"//g")
+gp env ASTRA_DB_KEYSPACE=$(echo ${FIRST_DB_KEYSPACE} | sed "s/\"//g") &>/dev/null
 
-export ASTRA_DB_ID=${FIRST_DB_ID}
-gp env ASTRA_DB_ID=${FIRST_DB_ID} &>/dev/null
+export ASTRA_DB_ID=$(echo ${FIRST_DB_ID} | sed "s/\"//g")
+gp env ASTRA_DB_ID=$(echo ${FIRST_DB_ID} | sed "s/\"//g") &>/dev/null
 
-export ASTRA_DB_REGION=${FIRST_DB_REGION}
-gp env ASTRA_DB_REGION=${FIRST_DB_REGION} &>/dev/null
+export ASTRA_DB_REGION=$(echo ${FIRST_DB_REGION} | sed "s/\"//g")
+gp env ASTRA_DB_REGION=$(echo ${FIRST_DB_REGION} | sed "s/\"//g") &>/dev/null
 
 if [[ -z "$ASTRA_DB_PASSWORD" ]]; then
   echo "What is your Astra DB password? 🔒"
