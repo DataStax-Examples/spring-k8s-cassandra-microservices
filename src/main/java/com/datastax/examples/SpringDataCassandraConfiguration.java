@@ -20,13 +20,13 @@ public class SpringDataCassandraConfiguration extends AbstractCassandraConfigura
     @Autowired
     private CassandraProperties cassandraProperties;
 
-    @Value("${DB_BUNDLE:none}")
+    @Value("${ASTRA_DB_BUNDLE:none}")
     private String astraSecureConnectBundle;
 
-    @Value("${DB_USERNAME:cassandra}")
+    @Value("${ASTRA_DB_USERNAME:cassandra}")
     private String username;
 
-    @Value("${DB_PASSWORD:cassandra}")
+    @Value("${ASTRA_DB_PASSWORD:cassandra}")
     private String password;
 
     @Override
