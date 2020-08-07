@@ -22,7 +22,7 @@ public class SwaggerConfig {
                 .groupName("orders")
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("/api/orders/**"))
+                .paths(PathSelectors.ant("/orders/**"))
                 .build()
                 .apiInfo(apiInfo());
     }

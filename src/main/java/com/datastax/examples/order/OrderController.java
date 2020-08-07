@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.BasePathAwareController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +14,11 @@ public class OrderController {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView method() {
+        return new ModelAndView("redirect:" + "/swagger-ui/");
+    }
 
     @GetMapping("orders/{id}")
     public ResponseEntity<List<Order>> getOrder(@PathVariable("oid") UUID oid) {
