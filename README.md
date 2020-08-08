@@ -7,9 +7,9 @@ This sample uses Spring Data Cassandra and DataStax Astra to build a REST API fo
 ## Running
 
 ```
-ASTRA_DB_BUNDLE=<path-to-secure-connect-bundle>
-ASTRA_DB_USERNAME=<astra-username>
-ASTRA_DB_PASSWORD=<astra-password>
+export ASTRA_DB_BUNDLE=<path-to-secure-connect-bundle>
+export ASTRA_DB_USERNAME=<astra-username>
+export ASTRA_DB_PASSWORD=<astra-password>
 ```
 
 ```
