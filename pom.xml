@@ -34,7 +34,7 @@
 		<cassandra-java-driver.version>4.8.0</cassandra-java-driver.version>
 
 		<!-- Third Parties -->
-		<common-fileupload>1.3.3</common-fileupload>
+		<common-fileupload>1.5</common-fileupload>
 		<logback.version>1.2.3</logback.version>
 		<jackson.version>2.11.0</jackson.version>
 		<springdoc.version>1.3.9</springdoc.version>
